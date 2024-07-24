@@ -1,0 +1,7 @@
+Waiting for WordPress database creation...
+connect to WordPress database
+Environment variable DB_NAME matches the expected value.
+Environment variable DB_USER matches the expected value.
+Environment variable DB_PASSWORD matches the expected value.
+Environment variable DB_HOST matches the expected value.
+All environment variables match the WordPress configuration.

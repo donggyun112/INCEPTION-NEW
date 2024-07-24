@@ -1,0 +1,64 @@
+
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - server:/var/www/html/wordpress
+    networks:
+      - intra
+    depends_on:
+      - wordpress
+    restart: always
+    container_name: nginx
+
+  mariadb:
+    build: 
+      context: ./requirements/mariadb
+    expose:
+      - "3306"
+    networks:
+      - intra
+    volumes:
+      - db_data:/data/mysql/mysql-data
+    env_file:
+      - .env
+    restart: always
+    container_name: mariadb
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    expose:
+      - "9000"
+    volumes:
+      - server:/var/www/html/wordpress
+    networks:
+      - intra
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    restart: always
+    container_name: wordpress
+
+volumes:
+  server:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/seodong-gyun/42/dockertest/srcs/requirements/srcs
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/seodong-gyun/42/dockertest/srcs/requirements/Data
+
+
+networks:
+  intra:
+    driver: bridge

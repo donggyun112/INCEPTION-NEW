@@ -1,0 +1,41 @@
+FROM debian:bullseye
+
+RUN apt update && apt-get update -y
+
+RUN apt-get -y install mariadb-server
+
+RUN apt-get -y install mariadb-client
+
+RUN apt-get install wget -y
+
+RUN mkdir -p /data/mysql/mysql-data
+
+RUN mkdir -p /home/mysql/log/binary/mysql-bin && \
+	mkdir -p /home/mysql/log/error/error.log && \
+	mkdir -p /home/mysql/log/relay/relay-log && \
+	mkdir -p /home/mysql/log/slow/slow.log && \
+	mkdir -p /home/mysql/log/general/mysql_general.log && \
+	mkdir -p /home/mysql/tmpdir && \
+	chown -R mysql:mysql /home/mysql && \
+	chown -R mysql:mysql /data/mysql && \
+	chmod 700 /data/mysql/mysql-data && \
+	mkdir -p /run/mysqld && \
+	chown mysql:mysql /run/mysqld && \
+	chmod 755  /run/mysqld &&  \
+	cp -R /var/lib/mysql/* /data/mysql/mysql-data/ && \
+	chown -R mysql:mysql /data/mysql
+
+
+RUN sed -i 's/^\(syslog\)/#\1/' /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf
+
+COPY ./tools/conf/my.cnf /etc/mysql/
+
+COPY ./tools/conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+
+
+COPY ./tools/setup_mariadb.sh ./
+
+ENTRYPOINT [ "bash", "setup_mariadb.sh" ]
+
+# CMD [ "bash", "setup_mariadb.sh" ]
+
