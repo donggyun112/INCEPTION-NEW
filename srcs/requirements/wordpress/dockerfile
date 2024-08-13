@@ -35,4 +35,4 @@ COPY ./tools/setup_wordpress.sh ./
 
 
 
-CMD [ "bash", "setup_wordpress.sh"]
+ENTRYPOINT [ "bash", "setup_wordpress.sh"]

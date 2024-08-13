@@ -1,7 +1,11 @@
 
 mkdir -p /data/mysql/mysql-data
 
-service mariadb start >> /data/mysql/log.txt
+mysqld_safe --nowatch --skip-networking
+
+until mysqladmin ping -s 2>/dev/null; do
+        sleep 1
+    done
 
 if [ $? -ne 0 ]; then
 	echo "MariaDB is not running." >> /data/mysql/log.txt
@@ -16,7 +20,6 @@ fi
 if ! mysql -u"root" -p"$DB_PASSWORD" -e "SHOW DATABASES;" | grep -q "wordpress"; then
 
 
-	
 	echo "MariaDB create Data" >> /data/mysql/log.txt
 
 	mysql -u root -p$DB_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';"
@@ -26,7 +29,6 @@ if ! mysql -u"root" -p"$DB_PASSWORD" -e "SHOW DATABASES;" | grep -q "wordpress";
 	mysql -u root -p$DB_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
 	mysqladmin -u root -p6071 shutdown
-
 
 	mysqld_safe
 

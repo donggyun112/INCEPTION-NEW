@@ -25,6 +25,7 @@ services:
       - db_data:/data/mysql/mysql-data
     env_file:
       - .env
+    init: true
     restart: always
     container_name: mariadb
 
@@ -39,6 +40,7 @@ services:
       - intra
     depends_on:
       - mariadb
+    init: true
     env_file:
       - .env
     restart: always
@@ -50,13 +52,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/seodong-gyun/42/dockertest/srcs/requirements/srcs
+      device: /Users/seodong-gyun/42/inception-new/srcs/requirements/srcs
   db_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/seodong-gyun/42/dockertest/srcs/requirements/Data
+      device: /Users/seodong-gyun/42/inception-new/srcs/requirements/Data
 
 
 networks:

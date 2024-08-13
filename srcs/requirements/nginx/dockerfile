@@ -9,6 +9,4 @@ RUN mkdir -p /var/www/wordpress
 
 COPY ./tools/conf/default ./etc/nginx/sites-available/
 
-COPY ./tools/setup_nginx.sh ./
-
-CMD [ "bash", "setup_nginx.sh"]
+CMD [ "nginx", "-g", "daemon off;"]
