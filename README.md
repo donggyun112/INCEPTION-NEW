@@ -73,6 +73,23 @@ WORDPRESS_USER_PASSWORD=user_password
 
 This project uses a Makefile to simplify Docker operations. Here are the available commands:
 
+0. **You will need to modify the volumes device path in the dockercompos.yml file to suit your directory path**
+```	
+volumes:
+  server:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/seodong-gyun/42/inception-new/srcs/requirements/srcs
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/seodong-gyun/42/inception-new/srcs/requirements/Data
+```	
+
 1. Navigate to the project directory.
 
 2. Create the `.env` file in the `srcs` directory and set the required environment variables.
